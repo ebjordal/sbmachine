@@ -1,0 +1,110 @@
+# -*- coding: utf-8 -*-
+
+# Form implementation generated from reading ui file 'pincode.ui'
+#
+# Created by: PyQt5 UI code generator 5.5.1
+#
+# WARNING! All changes made in this file will be lost!
+
+from PyQt5 import QtCore, QtGui, QtWidgets
+
+class Ui_pincode(object):
+    def setupUi(self, pincode):
+        pincode.setObjectName("pincode")
+        pincode.resize(800, 480)
+        self.gridLayoutWidget = QtWidgets.QWidget(pincode)
+        self.gridLayoutWidget.setGeometry(QtCore.QRect(100, 240, 581, 128))
+        self.gridLayoutWidget.setObjectName("gridLayoutWidget")
+        self.qwerty_pin = QtWidgets.QGridLayout(self.gridLayoutWidget)
+        self.qwerty_pin.setSizeConstraint(QtWidgets.QLayout.SetFixedSize)
+        self.qwerty_pin.setHorizontalSpacing(6)
+        self.qwerty_pin.setObjectName("qwerty_pin")
+        self.pushButton_three = QtWidgets.QPushButton(self.gridLayoutWidget)
+        self.pushButton_three.setObjectName("pushButton_three")
+        self.qwerty_pin.addWidget(self.pushButton_three, 0, 2, 1, 1)
+        self.pushButton_one = QtWidgets.QPushButton(self.gridLayoutWidget)
+        self.pushButton_one.setObjectName("pushButton_one")
+        self.qwerty_pin.addWidget(self.pushButton_one, 0, 0, 1, 1)
+        self.pushButton_two = QtWidgets.QPushButton(self.gridLayoutWidget)
+        self.pushButton_two.setObjectName("pushButton_two")
+        self.qwerty_pin.addWidget(self.pushButton_two, 0, 1, 1, 1)
+        self.pushButton_six = QtWidgets.QPushButton(self.gridLayoutWidget)
+        self.pushButton_six.setObjectName("pushButton_six")
+        self.qwerty_pin.addWidget(self.pushButton_six, 1, 2, 1, 1)
+        self.pushButton_four = QtWidgets.QPushButton(self.gridLayoutWidget)
+        self.pushButton_four.setObjectName("pushButton_four")
+        self.qwerty_pin.addWidget(self.pushButton_four, 1, 0, 1, 1)
+        self.pushButton_five = QtWidgets.QPushButton(self.gridLayoutWidget)
+        self.pushButton_five.setObjectName("pushButton_five")
+        self.qwerty_pin.addWidget(self.pushButton_five, 1, 1, 1, 1)
+        self.pushButton_nine = QtWidgets.QPushButton(self.gridLayoutWidget)
+        self.pushButton_nine.setObjectName("pushButton_nine")
+        self.qwerty_pin.addWidget(self.pushButton_nine, 2, 2, 1, 1)
+        self.pushButton_seven = QtWidgets.QPushButton(self.gridLayoutWidget)
+        self.pushButton_seven.setObjectName("pushButton_seven")
+        self.qwerty_pin.addWidget(self.pushButton_seven, 2, 0, 1, 1)
+        self.pushButton_eight = QtWidgets.QPushButton(self.gridLayoutWidget)
+        self.pushButton_eight.setObjectName("pushButton_eight")
+        self.qwerty_pin.addWidget(self.pushButton_eight, 2, 1, 1, 1)
+        self.pushButton_DEL = QtWidgets.QPushButton(self.gridLayoutWidget)
+        self.pushButton_DEL.setObjectName("pushButton_DEL")
+        self.qwerty_pin.addWidget(self.pushButton_DEL, 3, 2, 1, 1)
+        self.pushButton_zero = QtWidgets.QPushButton(self.gridLayoutWidget)
+        self.pushButton_zero.setObjectName("pushButton_zero")
+        self.qwerty_pin.addWidget(self.pushButton_zero, 3, 1, 1, 1)
+        self.verticalLayoutWidget = QtWidgets.QWidget(pincode)
+        self.verticalLayoutWidget.setGeometry(QtCore.QRect(250, 60, 306, 80))
+        self.verticalLayoutWidget.setObjectName("verticalLayoutWidget")
+        self.pincode_layout = QtWidgets.QVBoxLayout(self.verticalLayoutWidget)
+        self.pincode_layout.setObjectName("pincode_layout")
+        self.pinlabel = QtWidgets.QLabel(self.verticalLayoutWidget)
+        font = QtGui.QFont()
+        font.setPointSize(13)
+        font.setBold(True)
+        font.setWeight(75)
+        self.pinlabel.setFont(font)
+        self.pinlabel.setObjectName("pinlabel")
+        self.pincode_layout.addWidget(self.pinlabel, 0, QtCore.Qt.AlignHCenter)
+        self.pincode_entry = QtWidgets.QLineEdit(self.verticalLayoutWidget)
+        self.pincode_entry.setMaxLength(4)
+        self.pincode_entry.setEchoMode(QtWidgets.QLineEdit.Password)
+        self.pincode_entry.setObjectName("pincode_entry")
+        self.pincode_layout.addWidget(self.pincode_entry)
+        self.pushButton_cancel = QtWidgets.QPushButton(pincode)
+        self.pushButton_cancel.setGeometry(QtCore.QRect(630, 420, 99, 27))
+        self.pushButton_cancel.setObjectName("pushButton_cancel")
+        self.pushbutton_ok = QtWidgets.QPushButton(pincode)
+        self.pushbutton_ok.setGeometry(QtCore.QRect(510, 420, 99, 27))
+        self.pushbutton_ok.setObjectName("pushbutton_ok")
+
+        self.retranslateUi(pincode)
+        QtCore.QMetaObject.connectSlotsByName(pincode)
+
+    def retranslateUi(self, pincode):
+        _translate = QtCore.QCoreApplication.translate
+        pincode.setWindowTitle(_translate("pincode", "Dialog"))
+        self.pushButton_three.setText(_translate("pincode", "3"))
+        self.pushButton_one.setText(_translate("pincode", "1"))
+        self.pushButton_two.setText(_translate("pincode", "2"))
+        self.pushButton_six.setText(_translate("pincode", "6"))
+        self.pushButton_four.setText(_translate("pincode", "4"))
+        self.pushButton_five.setText(_translate("pincode", "5"))
+        self.pushButton_nine.setText(_translate("pincode", "9"))
+        self.pushButton_seven.setText(_translate("pincode", "7"))
+        self.pushButton_eight.setText(_translate("pincode", "8"))
+        self.pushButton_DEL.setText(_translate("pincode", "DEL"))
+        self.pushButton_zero.setText(_translate("pincode", "0"))
+        self.pinlabel.setText(_translate("pincode", "Please enter your four digit PIN code."))
+        self.pushButton_cancel.setText(_translate("pincode", "Cancel"))
+        self.pushbutton_ok.setText(_translate("pincode", "OK"))
+
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    pincode = QtWidgets.QDialog()
+    ui = Ui_pincode()
+    ui.setupUi(pincode)
+    pincode.show()
+    sys.exit(app.exec_())
+
