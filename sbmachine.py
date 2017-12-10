@@ -2,14 +2,13 @@ import sys
 '''Qt bindings for core Qt functionalities (non-GUI)'''
 from PyQt5 import QtCore
 import PyQt5
-import ButtonPopup
 from PyQt5.QtWidgets import QMainWindow,QApplication,QDialog, QFileDialog,QVBoxLayout
 '''Subscripts'''
 
 from mainwindow import Ui_MainWindow 		#import the MainWindow widget from the converted files from .ui to .py
 from pincode import Ui_pincode
 from userlogin_manual import Ui_userlogin_manual
-
+import ButtonPopup
 
 
 '''Setup of the GUI with associated functions for buttons'''
@@ -22,6 +21,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def login(self):
         dmw.hide()
         dmf.show()
+        UserLoginM.user_email.clear()
 
 
 class UserLoginM(QDialog, Ui_userlogin_manual):
@@ -31,14 +31,112 @@ class UserLoginM(QDialog, Ui_userlogin_manual):
         self.user_email.clear()
         self.pushButton_Ok.clicked.connect(self.submit)
         self.pushButton_cancel.clicked.connect(self.cancel)
+        self.pushButton_del.clicked.connect(self.LoginPushDel)
+        self.pushButton_a.clicked.connect(self.LoginPushA)
+        self.pushButton_b.clicked.connect(self.LoginPushB)
+        self.pushButton_c.clicked.connect(self.LoginPushC)
+        self.pushButton_d.clicked.connect(self.LoginPushD)
+        self.pushButton_e.clicked.connect(self.LoginPushE)
+        self.pushButton_f.clicked.connect(self.LoginPushF)
+        self.pushButton_g.clicked.connect(self.LoginPushG)
+        self.pushButton_h.clicked.connect(self.LoginPushH)
+        self.pushButton_i.clicked.connect(self.LoginPushI)
+        self.pushButton_j.clicked.connect(self.LoginPushJ)
+        self.pushButton_k.clicked.connect(self.LoginPushK)
+        self.pushButton_l.clicked.connect(self.LoginPushL)
+        self.pushButton_m.clicked.connect(self.LoginPushM)
+        self.pushButton_n.clicked.connect(self.LoginPushN)
+        self.pushButton_o.clicked.connect(self.LoginPushO)
+        self.pushButton_p.clicked.connect(self.LoginPushP)
+        self.pushButton_q.clicked.connect(self.LoginPushQ)
+        self.pushButton_r.clicked.connect(self.LoginPushR)
+        self.pushButton_s.clicked.connect(self.LoginPushS)
+        self.pushButton_t.clicked.connect(self.LoginPushT)
+        self.pushButton_v.clicked.connect(self.LoginPushV)
+        self.pushButton_w.clicked.connect(self.LoginPushW)
+        self.pushButton_x.clicked.connect(self.LoginPushX)
+        self.pushButton_y.clicked.connect(self.LoginPushY)
+        self.pushButton_z.clicked.connect(self.LoginPushZ)
+        self.pushButton_dot.clicked.connect(self.LoginPushDot)
+        self.pushButton_dash.clicked.connect(self.LoginPushDash)
+        self.pushButton_alfa.clicked.connect(self.LoginPushAlpha)
+
+
+
+
+
+
 
     def submit(self):
         dmf.hide()
         dmp.show()
 
     def cancel(self):
+        self.user_email.clear()
         dmf.hide()
         dmw.show()
+
+    def LoginPushA(self):
+        self.user_email.insert("a")
+    def LoginPushB(self):
+        self.user_email.insert("b")
+    def LoginPushC(self):
+        self.user_email.insert("c")
+    def LoginPushD(self):
+        self.user_email.insert("d")
+    def LoginPushE(self):
+        self.user_email.insert("e")
+    def LoginPushF(self):
+        self.user_email.insert("f")
+    def LoginPushG(self):
+        self.user_email.insert("g")
+    def LoginPushH(self):
+        self.user_email.insert("h")
+    def LoginPushI(self):
+        self.user_email.insert("i")
+    def LoginPushJ(self):
+        self.user_email.insert("j")
+    def LoginPushK(self):
+        self.user_email.insert("k")
+    def LoginPushL(self):
+        self.user_email.insert("l")
+    def LoginPushM(self):
+        self.user_email.insert("m")
+    def LoginPushN(self):
+        self.user_email.insert("n")
+    def LoginPushO(self):
+        self.user_email.insert("o")
+    def LoginPushP(self):
+        self.user_email.insert("p")
+    def LoginPushQ(self):
+        self.user_email.insert("q")
+    def LoginPushR(self):
+        self.user_email.insert("r")
+    def LoginPushS(self):
+        self.user_email.insert("s")
+    def LoginPushT(self):
+        self.user_email.insert("t")
+    def LoginPushU(self):
+        self.user_email.insert("u")
+    def LoginPushV(self):
+        self.user_email.insert("v")
+    def LoginPushW(self):
+        self.user_email.insert("w")
+    def LoginPushX(self):
+        self.user_email.insert("x")
+    def LoginPushY(self):
+        self.user_email.insert("y")
+    def LoginPushZ(self):
+        self.user_email.insert("z")
+    def LoginPushDot(self):
+        self.user_email.insert(".")
+    def LoginPushDash(self):
+        self.user_email.insert("-")
+    def LoginPushAlpha(self):
+        self.user_email.insert("@")
+    def LoginPushDel(self):
+        self.user_email.backspace()
+
 
 class PinCode(QDialog,Ui_pincode):
     def __init__(self, parent = None):
