@@ -1,14 +1,13 @@
 import sys
 '''Qt bindings for core Qt functionalities (non-GUI)'''
-from PyQt5 import QtCore
-import PyQt5
-from PyQt5.QtWidgets import QMainWindow,QApplication,QDialog, QFileDialog,QVBoxLayout
+from PyQt5.QtWidgets import QMainWindow,QApplication,QDialog
+import mysql.connector as mariadb
+
 '''Subscripts'''
 
 from mainwindow import Ui_MainWindow 		#import the MainWindow widget from the converted files from .ui to .py
 from pincode import Ui_pincode
 from userlogin_manual import Ui_userlogin_manual
-import ButtonPopup
 
 
 '''Setup of the GUI with associated functions for buttons'''
@@ -71,9 +70,9 @@ class UserLoginM(QDialog, Ui_userlogin_manual):
         self.pushButton_eight.clicked.connect(self.LoginPushEight)
         self.pushButton_nine.clicked.connect(self.LoginPushNine)
         self.pushButton_zero.clicked.connect(self.LoginPushZero)
-
     def submit(self):
         dmp.pincode_entry.clear()
+        print self.user_email.text() #Sending user to pincode window.
         dmf.hide()
         dmp.show()
 
@@ -81,8 +80,6 @@ class UserLoginM(QDialog, Ui_userlogin_manual):
         dmf.user_email.clear()
         dmf.hide()
         dmw.show()
-
-
     def LoginPushA(self):
         self.user_email.insert("a")
     def LoginPushB(self):
@@ -165,6 +162,7 @@ class UserLoginM(QDialog, Ui_userlogin_manual):
         self.user_email.backspace()
 
 
+
 class PinCode(QDialog,Ui_pincode):
     def __init__(self, parent = None):
         super(PinCode, self).__init__(parent)
@@ -215,11 +213,45 @@ class PinCode(QDialog,Ui_pincode):
         dmp.hide()
         dmw.show()
 
+class user:
+    def __init__(self):
+        self.email = "NULL"
+        self.pin = "NULL"  #This should probably not be stored here.
+        self.order = "NULL"
+        self.received = "NULL"
+        self.name = "Not Logged in."
+        self.verified = "0"
+
+    def reset(self):
+        self.__init__()
+
+    def verify(self,pin):
+        #query pin hash for user from DB.
+        #if equal to hash of pin supplied, set verified to 1 and query name.
 
 
-app = QApplication(sys.argv) # create the GUI application
-dmw = MainWindow() # instantiate the main window
-dmf = UserLoginM()
-dmp = PinCode()
-dmw.show() # show it
-sys.exit(app.exec_())
+    def set_email(email):
+        self.email = email
+
+
+
+
+def initDB():
+    dbuser = mariadb.connect(user='dbuser', password='987', database='sb1') #pin codes will be hashes later.
+    cursor = dbuser.cursor()
+    #cursor.execute("SELECT navn from bruker where ")
+    #test = cursor.fetchall()
+
+    #Variable in "beta database" bruker, pin
+    #print "Brukere i database:"
+    #print test
+
+if __name__ == "__main__":
+    app = QApplication(sys.argv) # create the GUI application
+    dmw = MainWindow() # instantiate the main window
+    dmf = UserLoginM()
+    dmp = PinCode()
+    initDB()
+
+    dmw.show() # show it
+    sys.exit(app.exec_())
