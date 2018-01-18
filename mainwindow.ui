@@ -217,7 +217,7 @@
       <number>1</number>
      </property>
      <item row="1" column="0">
-      <widget class="QTextBrowser" name="Coffe_A"/>
+      <widget class="QTextBrowser" name="Coffee_A"/>
      </item>
      <item row="2" column="0">
       <widget class="QLabel" name="Coffee_Blabel">
@@ -252,7 +252,7 @@
       </widget>
      </item>
      <item row="3" column="0">
-      <widget class="QTextBrowser" name="textBrowser_2"/>
+      <widget class="QTextBrowser" name="Coffee_B"/>
      </item>
     </layout>
    </widget>
@@ -285,8 +285,8 @@
      <y>315</y>
     </hint>
     <hint type="destinationlabel">
-     <x>344</x>
-     <y>258</y>
+     <x>469</x>
+     <y>270</y>
     </hint>
    </hints>
   </connection>

@@ -312,10 +312,17 @@ def initDB():
     print(economic_coffee)
 
     #Insert Premium cofee into main window (dmw) under the QTextedit CoffeA.
-    dmw.Coffe_A.setText(premium_coffee[1] + " " + premium_coffee[2] + " - " + premium_coffee[3] +"\n" +
-        "Price: "+ str(premium_coffee[6]/1000) + "  NOK/gram \n" +
-        premium_coffee [7]
-        )
+    dmw.Coffee_A.setText("<html><b>"+premium_coffee[1] + " " + premium_coffee[2] + " - " + premium_coffee[3] +"<br>" +
+        "Varietal: </b>" + premium_coffee[8] + "<br>" +
+        "<b>Tasting notes: </b>" + premium_coffee[11] + "<br>" +
+
+        "<b>Price: </b>"+ str(premium_coffee[6]/1000) + "  NOK/gram")
+
+    dmw.Coffee_B.setText("<html><b>"+economic_coffee[1] + " " + economic_coffee[2] + " - " + economic_coffee[3] +"<br>" +
+        "Varietal: </b>" + economic_coffee[8] + "<br>" +
+        "<b>Tasting notes: </b>" + economic_coffee[11] + "<br>" +
+        "<b>Price: </b>"+ str(economic_coffee[6]/1000) + "  NOK/gram")
+
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)  # create the GUI application
