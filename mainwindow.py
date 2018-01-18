@@ -104,9 +104,9 @@ class Ui_MainWindow(object):
         self.Coffee_layout.setContentsMargins(1, 1, 1, 1)
         self.Coffee_layout.setSpacing(6)
         self.Coffee_layout.setObjectName("Coffee_layout")
-        self.Coffee_A = QtWidgets.QGraphicsView(self.gridLayoutWidget_3)
-        self.Coffee_A.setObjectName("Coffee_A")
-        self.Coffee_layout.addWidget(self.Coffee_A, 1, 0, 1, 1)
+        self.Coffe_A = QtWidgets.QTextBrowser(self.gridLayoutWidget_3)
+        self.Coffe_A.setObjectName("Coffe_A")
+        self.Coffee_layout.addWidget(self.Coffe_A, 1, 0, 1, 1)
         self.Coffee_Blabel = QtWidgets.QLabel(self.gridLayoutWidget_3)
         font = QtGui.QFont()
         font.setBold(True)
@@ -123,9 +123,9 @@ class Ui_MainWindow(object):
         self.Coffee_Alabel.setAlignment(QtCore.Qt.AlignCenter)
         self.Coffee_Alabel.setObjectName("Coffee_Alabel")
         self.Coffee_layout.addWidget(self.Coffee_Alabel, 0, 0, 1, 1)
-        self.Coffee_B = QtWidgets.QGraphicsView(self.gridLayoutWidget_3)
-        self.Coffee_B.setObjectName("Coffee_B")
-        self.Coffee_layout.addWidget(self.Coffee_B, 3, 0, 1, 1)
+        self.textBrowser_2 = QtWidgets.QTextBrowser(self.gridLayoutWidget_3)
+        self.textBrowser_2.setObjectName("textBrowser_2")
+        self.Coffee_layout.addWidget(self.textBrowser_2, 3, 0, 1, 1)
         MainWindow.setCentralWidget(self.centralWidget)
         self.mainToolBar = QtWidgets.QToolBar(MainWindow)
         self.mainToolBar.setObjectName("mainToolBar")
@@ -152,6 +152,7 @@ class Ui_MainWindow(object):
         self.Coffee_Alabel.setText(_translate("MainWindow", "Premium coffee"))
 
 import resource_rc
+#import resources_rc
 
 if __name__ == "__main__":
     import sys
