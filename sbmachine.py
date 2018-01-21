@@ -1,6 +1,6 @@
 import sys
 import socket
-
+import crypt
 '''Qt bindings for core Qt functionalities (non-GUI)'''
 from PyQt5.QtWidgets import QMainWindow, QApplication, QDialog
 import mysql.connector as mariadb
@@ -76,7 +76,8 @@ class UserLoginM(QDialog, Ui_userlogin_manual):
 
     def submit(self):
         dmp.pincode_entry.clear()
-        print(self.user_email.text())  # Sending user to pincode window.
+        user.name = self.user_email.text() #Setting user.name to user class. Will be used when checking pin code.
+        print(user.name)
         dmf.hide()
         dmp.show()
 
@@ -256,6 +257,7 @@ class PinCode(QDialog, Ui_pincode):
     def submit(self):
         print(self.pincode_entry.text())
         print("Hello")
+        #hash pinentry and check against database. Run connect function in user if match.
         dmp.hide()
         dmw.show()
 
@@ -264,14 +266,14 @@ class PinCode(QDialog, Ui_pincode):
         dmw.show()
 
 
-class user:
+class User:
     def __init__(self):
         self.email = "NULL"
-        self.pin = "NULL"  # This should probably not be stored here.
-        self.order = "NULL"
-        self.received = "NULL"
-        self.name = "Not Logged in."
-        self.verified = "0"
+        self.ordertype = "NULL" #Int that is primary key in coffee table
+        self.ordersize = "NULL" #Int as in amount of grams.
+        self.received = "NULL"  #Int as in grams received from machine. Should be >= ordersize unless empty/hw-issue.
+        self.name = "Nobody"      #Name to display whos logged in.
+        self.verified = "0"     #Integer to show whether user has been verified.
 
     def reset(self):
         self.__init__()
@@ -283,8 +285,15 @@ class user:
     def set_email(email):
         self.email = email
 
+    def set_ordertype(coffe_type):
+        self.ordertype = coffe_type
+
+    def set_ordersize(ordersize):
+        self.ordersize = ordersize
 
 def initDB():
+    #Evaluate whether this should be a continous database connection and not just init and also contain user.?
+
     HostID = socket.gethostname()
     dbuser = mariadb.connect(user='sbm', password='987',
                              database='spinbean_com')  # Set up database connection. Increase safety of pw.
@@ -296,6 +305,8 @@ def initDB():
     coffe_id=cursor.fetchone()
 
     print(HostID)
+    data = crypt.crypt(HostID,salt="cuffeluver")
+    print(data)
     print(coffe_id)
     print(coffe_id[0])
 
@@ -323,12 +334,15 @@ def initDB():
         "<b>Tasting notes: </b>" + economic_coffee[11] + "<br>" +
         "<b>Price: </b>"+ str(economic_coffee[6]/1000) + "  NOK/gram")
 
+    dmw.user_name.setText(user.name)
+
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)  # create the GUI application
     dmw = MainWindow()  # instantiate the main window
     dmf = UserLoginM()
     dmp = PinCode()
+    user = User()
     initDB()
 
     dmw.show()  # show it
