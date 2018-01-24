@@ -1,6 +1,7 @@
 import sys
 import socket
 import crypt
+
 '''Qt bindings for core Qt functionalities (non-GUI)'''
 from PyQt5.QtWidgets import QMainWindow, QApplication, QDialog
 import mysql.connector as mariadb
@@ -76,8 +77,8 @@ class UserLoginM(QDialog, Ui_userlogin_manual):
 
     def submit(self):
         dmp.pincode_entry.clear()
-        user.name = self.user_email.text() #Setting user.name to user class. Will be used when checking pin code.
-        print(user.name)
+        user.email = self.user_email.text()  # Setting user.name to user class. Will be used when checking pin code.
+        print(user.email)
         dmf.hide()
         dmp.show()
 
@@ -255,9 +256,26 @@ class PinCode(QDialog, Ui_pincode):
         self.pincode_entry.insert("0")
 
     def submit(self):
-        print(self.pincode_entry.text())
-        print("Hello")
-        #hash pinentry and check against database. Run connect function in user if match.
+        #print(self.pincode_entry.text())
+
+        # hash pinentry and check against database. Run connect function in user if match.
+        query_hash = "SELECT passwordhash FROM User WHERE Email = %s"
+        db.cursor.execute(query_hash,(user.email,))
+        dbhash=db.cursor.fetchone()
+
+        print("From db: " + str(dbhash[0]))
+        print("From gui: " + self.pincode_entry.text())
+        if self.pincode_entry.text() == str(dbhash[0]):
+            query_name = "SELECT Firstname FROM User WHERE Email = %s"
+            db.cursor.execute(query_name,(user.email,))
+            user.name=db.cursor.fetchone()
+            dmw.user_name.setText(user.name[0])
+            print("CORRECT PIN")
+            #Set logged in.
+
+        else:
+            print("WRONG pin, you are reported to the CEO of spinbean.")
+
         dmp.hide()
         dmw.show()
 
@@ -269,11 +287,11 @@ class PinCode(QDialog, Ui_pincode):
 class User:
     def __init__(self):
         self.email = "NULL"
-        self.ordertype = "NULL" #Int that is primary key in coffee table
-        self.ordersize = "NULL" #Int as in amount of grams.
-        self.received = "NULL"  #Int as in grams received from machine. Should be >= ordersize unless empty/hw-issue.
-        self.name = "Nobody"      #Name to display whos logged in.
-        self.verified = "0"     #Integer to show whether user has been verified.
+        self.ordertype = "NULL"  # Int that is primary key in coffee table
+        self.ordersize = "NULL"  # Int as in amount of grams.
+        self.received = "NULL"  # Int as in grams received from machine. Should be >= ordersize unless empty/hw-issue.
+        self.name = "Nobody"  # Name to display whos logged in.
+        self.verified = "0"  # Integer to show whether user has been verified.
 
     def reset(self):
         self.__init__()
@@ -291,50 +309,55 @@ class User:
     def set_ordersize(ordersize):
         self.ordersize = ordersize
 
-def initDB():
-    #Evaluate whether this should be a continous database connection and not just init and also contain user.?
 
-    HostID = socket.gethostname()
-    dbuser = mariadb.connect(user='sbm', password='987',
-                             database='spinbean_com')  # Set up database connection. Increase safety of pw.
-    cursor = dbuser.cursor()  # Create cursor object for database interaction.
+class InitDB():
+    # Evaluate whether this should be a continous database connection and not just init and also contain user.?
+    # TODO; need to add cursor etc to self. in order to access it from outside as an attribute.
+    def __init__(self, parent=None):
+        self.HostID = socket.gethostname()
+        self.dbuser = mariadb.connect(user='sbm', password='987',
+                                 database='spinbean_com')  # Set up database connection. Increase safety of pw.
+        self.cursor = self.dbuser.cursor()  # Create cursor object for database interaction.
 
-    # Define & execute sql queries for finding key of coffee on dispenser. Machine is found by HostID.
-    coffe_in_machine_query = "SELECT * FROM Dispenser WHERE Machine=%s"
-    cursor.execute(coffe_in_machine_query, (HostID,))
-    coffe_id=cursor.fetchone()
+        # Define & execute sql queries for finding key of coffee on dispenser. Machine is found by HostID.
+        coffe_in_machine_query = "SELECT * FROM Dispenser WHERE Machine=%s"
+        self.cursor.execute(coffe_in_machine_query, (self.HostID,))
+        self.coffe_id = self.cursor.fetchone()
 
-    print(HostID)
-    data = crypt.crypt(HostID,salt="cuffeluver")
-    print(data)
-    print(coffe_id)
-    print(coffe_id[0])
+        print(self.HostID)
+        data = crypt.crypt(self.HostID, salt="cuffeluver")
+        print(data)
+        print(self.coffe_id)
+        print(self.coffe_id[0])
 
-    #SQL query for information of Premium coffee in Dispenser. Premium coffee is in first argument of coffe_id
-    premium_coffee_query = "SELECT * FROM Coffee WHERE id=%s"
-    cursor.execute(premium_coffee_query,(coffe_id[1],))
-    premium_coffee=cursor.fetchone()
-    print(premium_coffee)
+        # SQL query for information of Premium coffee in Dispenser. Premium coffee is in first argument of coffe_id
+        premium_coffee_query = "SELECT * FROM Coffee WHERE id=%s"
+        self.cursor.execute(premium_coffee_query, (self.coffe_id[1],))
+        premium_coffee = self.cursor.fetchone()
+        print(premium_coffee)
 
-    #SQL query for information of Economic coffee in Dispenser. Ecomonic will be third argument of coffe_id
-    economic_coffee_query = "SELECT * FROM Coffee WHERE id=%s"
-    cursor.execute(economic_coffee_query,(coffe_id[2],))
-    economic_coffee=cursor.fetchone()
-    print(economic_coffee)
+        # SQL query for information of Economic coffee in Dispenser. Ecomonic will be third argument of coffe_id
+        economic_coffee_query = "SELECT * FROM Coffee WHERE id=%s"
+        self.cursor.execute(economic_coffee_query, (self.coffe_id[2],))
+        economic_coffee = self.cursor.fetchone()
+        print(economic_coffee)
 
-    #Insert Premium cofee into main window (dmw) under the QTextedit CoffeA.
-    dmw.Coffee_A.setText("<html><b>"+premium_coffee[1] + " " + premium_coffee[2] + " - " + premium_coffee[3] +"<br>" +
-        "Varietal: </b>" + premium_coffee[8] + "<br>" +
-        "<b>Tasting notes: </b>" + premium_coffee[11] + "<br>" +
+        # Insert Premium cofee into main window (dmw) under the QTextedit CoffeA.
+        dmw.Coffee_A.setText(
+            "<html><b>" + premium_coffee[1] + " " + premium_coffee[2] + " - " + premium_coffee[3] + "<br>" +
+            "Varietal: </b>" + premium_coffee[8] + "<br>" +
+            "<b>Tasting notes: </b>" + premium_coffee[11] + "<br>" +
+            "<b>Price: </b>" + str(premium_coffee[6] / 1000) + "  NOK/gram")
 
-        "<b>Price: </b>"+ str(premium_coffee[6]/1000) + "  NOK/gram")
+        dmw.Coffee_B.setText(
+            "<html><b>" + economic_coffee[1] + " " + economic_coffee[2] + " - " + economic_coffee[3] + "<br>" +
+            "Varietal: </b>" + economic_coffee[8] + "<br>" +
+            "<b>Tasting notes: </b>" + economic_coffee[11] + "<br>" +
+            "<b>Price: </b>" + str(economic_coffee[6] / 1000) + "  NOK/gram")
 
-    dmw.Coffee_B.setText("<html><b>"+economic_coffee[1] + " " + economic_coffee[2] + " - " + economic_coffee[3] +"<br>" +
-        "Varietal: </b>" + economic_coffee[8] + "<br>" +
-        "<b>Tasting notes: </b>" + economic_coffee[11] + "<br>" +
-        "<b>Price: </b>"+ str(economic_coffee[6]/1000) + "  NOK/gram")
+        dmw.user_name.setText(user.name)
 
-    dmw.user_name.setText(user.name)
+        #This is only for testing against pincheck from other class
 
 
 if __name__ == "__main__":
@@ -343,7 +366,7 @@ if __name__ == "__main__":
     dmf = UserLoginM()
     dmp = PinCode()
     user = User()
-    initDB()
+    db = InitDB()
 
     dmw.show()  # show it
     sys.exit(app.exec_())
