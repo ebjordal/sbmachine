@@ -14,6 +14,7 @@ import mysql.connector as mariadb
 from mainwindow import Ui_MainWindow  # import the MainWindow widget from the converted files from .ui to .py
 from pincode import Ui_pincode
 from userlogin_manual import Ui_userlogin_manual
+from register_user import Ui_RegisterUser
 
 '''Setup of the GUI with associated functions for buttons'''
 
@@ -28,6 +29,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.loginout_b.clicked.connect(self.loginout)
         self.button_A.clicked.connect(self.selectA)
         self.button_B.clicked.connect(self.selectB)
+        self.regandbalance_b.clicked.connect(self.registerandbalance)
         #self.Coffee_A.mousePressEvent()
 
     def loginout(self):
@@ -48,6 +50,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def selectB(self):
         print("B selected.\n")
+
+    def registerandbalance(self):
+        if user.email == "NULL":
+            print("good")
+            dmw.hide()
+            dmr.show()
+
+        if user.email != "NULL":
+            print("Will grep for balance.")
 
 
 class UserLoginM(QDialog, Ui_userlogin_manual):
@@ -334,6 +345,11 @@ class User:
         self.__init__()
 
 
+class RegisterUser(QDialog, Ui_RegisterUser):
+    def __init__(self, parent=None):
+        super(RegisterUser, self).__init__(parent)
+        self.setupUi(self)
+
 class InitDB():
     # Evaluate whether this should be a continous database connection and not just init and also contain user.?
     def __init__(self, parent=None):
@@ -389,6 +405,7 @@ if __name__ == "__main__":
     dmw = MainWindow()  # instantiate the main window
     dmf = UserLoginM()
     dmp = PinCode()
+    dmr = RegisterUser()
     user = User()
     db = InitDB()
 

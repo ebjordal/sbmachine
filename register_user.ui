@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>userlogin_manual</class>
- <widget class="QDialog" name="userlogin_manual">
+ <class>RegisterUser</class>
+ <widget class="QDialog" name="RegisterUser">
   <property name="enabled">
    <bool>true</bool>
   </property>
@@ -101,6 +101,7 @@
            <pointsize>20</pointsize>
            <weight>75</weight>
            <bold>true</bold>
+           <strikeout>true</strikeout>
           </font>
          </property>
          <property name="text">
@@ -119,6 +120,7 @@
            <pointsize>20</pointsize>
            <weight>75</weight>
            <bold>true</bold>
+           <strikeout>true</strikeout>
           </font>
          </property>
          <property name="text">
@@ -149,7 +151,7 @@
            <weight>75</weight>
            <italic>false</italic>
            <bold>true</bold>
-           <strikeout>false</strikeout>
+           <strikeout>true</strikeout>
           </font>
          </property>
          <property name="layoutDirection">
@@ -581,21 +583,21 @@
        </property>
       </spacer>
      </item>
-     <item row="5" column="7">
+     <item row="5" column="4" colspan="2">
       <widget class="QPushButton" name="pushButton_Ok">
        <property name="text">
         <string>OK</string>
        </property>
       </widget>
      </item>
-     <item row="5" column="9">
+     <item row="5" column="8" colspan="2">
       <widget class="QPushButton" name="pushButton_cancel">
        <property name="text">
         <string>Cancel</string>
        </property>
       </widget>
      </item>
-     <item row="5" column="0">
+     <item row="5" column="0" colspan="2">
       <widget class="QPushButton" name="pushButton">
        <property name="text">
         <string>Next field</string>
