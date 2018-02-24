@@ -349,6 +349,174 @@ class RegisterUser(QDialog, Ui_RegisterUser):
     def __init__(self, parent=None):
         super(RegisterUser, self).__init__(parent)
         self.setupUi(self)
+        self.state='1'
+        self.fname=''
+        self.sname=''
+        self.email=''
+        self.phone=''
+        self.pushButton_previous.clicked.connect(self.previousinput)
+        self.pushButton_Ok.clicked.connect(self.pushoknext)
+        self.pushButton_a.clicked.connect(self.pushA)
+        self.pushButton_b.clicked.connect(self.pushB)
+        self.pushButton_c.clicked.connect(self.pushC)
+        self.pushButton_d.clicked.connect(self.pushD)
+        self.pushButton_e.clicked.connect(self.pushE)
+        self.pushButton_f.clicked.connect(self.pushF)
+        self.pushButton_g.clicked.connect(self.pushG)
+        self.pushButton_h.clicked.connect(self.pushH)
+        self.pushButton_i.clicked.connect(self.pushI)
+        self.pushButton_j.clicked.connect(self.pushJ)
+        self.pushButton_k.clicked.connect(self.pushK)
+        self.pushButton_l.clicked.connect(self.pushL)
+        self.pushButton_m.clicked.connect(self.pushM)
+        self.pushButton_n.clicked.connect(self.pushN)
+        self.pushButton_o.clicked.connect(self.pushO)
+        self.pushButton_p.clicked.connect(self.pushP)
+        self.pushButton_q.clicked.connect(self.pushQ)
+        self.pushButton_r.clicked.connect(self.pushR)
+        self.pushButton_s.clicked.connect(self.pushS)
+        self.pushButton_t.clicked.connect(self.pushT)
+        self.pushButton_u.clicked.connect(self.pushU)
+        self.pushButton_v.clicked.connect(self.pushV)
+        self.pushButton_w.clicked.connect(self.pushW)
+        self.pushButton_x.clicked.connect(self.pushX)
+        self.pushButton_y.clicked.connect(self.pushY)
+        self.pushButton_z.clicked.connect(self.pushZ)
+
+
+    #Input state 1,2,3,4 relates to firstname, surname, email, phone
+
+    def previousinput(self):
+        if self.state=='1':
+            print("At start")
+
+        if self.state=='2':
+            self.state='1'
+            self.entrylabel.setText("First name:")
+            self.entryinput.clear()
+            self.entryinput.insert(self.fname)
+
+        if self.state=='3':
+            self.state='2'
+            self.entrylabel.setText("Surname")
+            self.entryinput.clear()
+            self.entryinput.insert(self.sname)
+
+        if self.state=='4':
+            self.state='3'
+            self.entrylabel.setText("Electronic mail:")
+            self.entryinput.clear()
+            self.entryinput.insert(self.email)
+
+    def pushoknext(self):
+        if self.state=='1':
+            self.fname = self.entryinput.text()
+            self.entrylabel.setText("Surname:")
+            self.entryinput.clear()
+            self.state='2'
+            print("Clicked ok")
+            return
+
+        if self.state == '2':
+            self.sname = self.entryinput.text()
+            self.entryinput.clear()
+            self.entrylabel.setText("Electronic mail:")
+            self.state = '3'
+            return
+
+        if self.state == '3':
+            self.email = self.entryinput.text()
+            self.entryinput.clear()
+            self.entrylabel.setText("Phone:")
+            self.state= '4'
+            return
+
+        if self.state == '4':
+            self.phone = self.entryinput.text()
+            self.entryinput.clear()
+            print("Firstname = " + self.fname + " Surname = " + self.sname + " Email = " + self.email + " Phone = " + self.phone + "\n")
+            #Display info, if ok go to pin code
+
+
+    def pushA(self):
+        self.entryinput.insert("a")
+
+    def pushB(self):
+        self.entryinput.insert("b")
+
+    def pushC(self):
+        self.entryinput.insert("c")
+
+    def pushD(self):
+        self.entryinput.insert("d")
+
+    def pushE(self):
+        self.entryinput.insert("e")
+
+    def pushF(self):
+        self.entryinput.insert("f")
+
+    def pushG(self):
+        self.entryinput.insert("g")
+
+    def pushH(self):
+        self.entryinput.insert("h")
+
+    def pushI(self):
+        self.entryinput.insert("i")
+
+    def pushJ(self):
+        self.entryinput.insert("j")
+
+    def pushK(self):
+        self.entryinput.insert("k")
+
+    def pushL(self):
+        self.entryinput.insert("l")
+
+    def pushM(self):
+        self.entryinput.insert("m")
+
+    def pushN(self):
+        self.entryinput.insert("n")
+
+    def pushO(self):
+        self.entryinput.insert("o")
+
+    def pushP(self):
+        self.entryinput.insert("p")
+
+    def pushQ(self):
+        self.entryinput.insert("q")
+
+    def pushR(self):
+        self.entryinput.insert("r")
+
+    def pushS(self):
+        self.entryinput.insert("s")
+
+    def pushT(self):
+        self.entryinput.insert("t")
+
+    def pushU(self):
+        self.entryinput.insert("u")
+
+    def pushV(self):
+        self.entryinput.insert("v")
+
+    def pushW(self):
+        self.entryinput.insert("w")
+
+    def pushX(self):
+        self.entryinput.insert("x")
+
+    def pushY(self):
+        self.entryinput.insert("y")
+
+    def pushZ(self):
+        self.entryinput.insert("z")
+
+
 
 class InitDB():
     # Evaluate whether this should be a continous database connection and not just init and also contain user.?
