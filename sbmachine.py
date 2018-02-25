@@ -5,7 +5,7 @@ import time
 
 
 '''Qt bindings for core Qt functionalities (non-GUI)'''
-from PyQt5.QtWidgets import QMainWindow, QApplication, QDialog
+from PyQt5.QtWidgets import QMainWindow, QApplication, QDialog, QLineEdit
 from PyQt5 import QtCore
 import mysql.connector as mariadb
 
@@ -356,6 +356,9 @@ class RegisterUser(QDialog, Ui_RegisterUser):
         self.phone=''
         self.pushButton_previous.clicked.connect(self.previousinput)
         self.pushButton_Ok.clicked.connect(self.pushoknext)
+        self.pushButton_del.clicked.connect(self.pushDel)
+        self.pushButton_cancel.clicked.connect(self.pushCancel)
+
         self.pushButton_a.clicked.connect(self.pushA)
         self.pushButton_b.clicked.connect(self.pushB)
         self.pushButton_c.clicked.connect(self.pushC)
@@ -382,9 +385,22 @@ class RegisterUser(QDialog, Ui_RegisterUser):
         self.pushButton_x.clicked.connect(self.pushX)
         self.pushButton_y.clicked.connect(self.pushY)
         self.pushButton_z.clicked.connect(self.pushZ)
+        self.pushButton_zero.clicked.connect(self.pushZero)
+        self.pushButton_one.clicked.connect(self.pushOne)
+        self.pushButton_two.clicked.connect(self.pushTwo)
+        self.pushButton_three.clicked.connect(self.pushThree)
+        self.pushButton_four.clicked.connect(self.pushFour)
+        self.pushButton_five.clicked.connect(self.pushFive)
+        self.pushButton_six.clicked.connect(self.pushSix)
+        self.pushButton_seven.clicked.connect(self.pushSeven)
+        self.pushButton_eight.clicked.connect(self.pushEight)
+        self.pushButton_nine.clicked.connect(self.pushNine)
+        self.pushButton_alfa.clicked.connect(self.pushAlfa)
+        self.pushButton_dot.clicked.connect(self.pushDot)
+        self.pushButton_dash.clicked.connect(self.pushDash)
 
 
-    #Input state 1,2,3,4 relates to firstname, surname, email, phone
+    #Input state 1,2,3,4 relates to firstname [1], surname [2], email[3], phone[4]
 
     def previousinput(self):
         if self.state=='1':
@@ -398,7 +414,7 @@ class RegisterUser(QDialog, Ui_RegisterUser):
 
         if self.state=='3':
             self.state='2'
-            self.entrylabel.setText("Surname")
+            self.entrylabel.setText("Surname:")
             self.entryinput.clear()
             self.entryinput.insert(self.sname)
 
@@ -407,6 +423,11 @@ class RegisterUser(QDialog, Ui_RegisterUser):
             self.entrylabel.setText("Electronic mail:")
             self.entryinput.clear()
             self.entryinput.insert(self.email)
+
+        if self.state > '4':
+            self.state ='4'
+            self.entrylabel.setText("Phone:")
+            self.entryinput.setEchoMode(QLineEdit.Normal)
 
     def pushoknext(self):
         if self.state=='1':
@@ -434,9 +455,43 @@ class RegisterUser(QDialog, Ui_RegisterUser):
         if self.state == '4':
             self.phone = self.entryinput.text()
             self.entryinput.clear()
+            self.entryinput.setEchoMode(QLineEdit.Password)
+            self.entrylabel.setText("Pincode:")
             print("Firstname = " + self.fname + " Surname = " + self.sname + " Email = " + self.email + " Phone = " + self.phone + "\n")
-            #Display info, if ok go to pin code
+            self.state='5'
+            return
 
+        if self.state == '5':
+            self.pin = self.entryinput.text()
+            self.entryinput.clear()
+            self.entrylabel.setText("Repeat Pincode:")
+            self.state = '6'
+            return
+
+        if self.state == '6':
+            if self.pin == self.entryinput.text():
+                self.entryinput.setEchoMode(QLineEdit.Normal)
+                self.entryinput.clear()
+                print("Pin match, hash pin and add to database")
+                return
+
+            if self.pin != self.entryinput.text():
+                print("Pin codes does not match, try again")
+                self.state='5'
+                self.entrylabel.setText("Pin codes did not match, Try again:")
+                self.entryinput.clear()
+                return
+
+    def pushCancel(self):
+        self.fname = ''
+        self.sname = ''
+        self.email = ''
+        self.phone = ''
+        dmr.hide()
+        dmw.show()
+
+    def pushDel(self):
+        self.entryinput.backspace()
 
     def pushA(self):
         self.entryinput.insert("a")
@@ -516,6 +571,47 @@ class RegisterUser(QDialog, Ui_RegisterUser):
     def pushZ(self):
         self.entryinput.insert("z")
 
+    def pushZero(self):
+        self.entryinput.insert("0")
+
+    def pushOne(self):
+        self.entryinput.insert("1")
+
+    def pushTwo(self):
+        self.entryinput.insert("2")
+
+    def pushThree(self):
+        self.entryinput.insert("3")
+
+    def pushFour(self):
+        self.entryinput.insert("4")
+
+    def pushFive(self):
+        self.entryinput.insert("5")
+
+    def pushSix(self):
+        self.entryinput.insert("6")
+
+    def pushSeven(self):
+        self.entryinput.insert("7")
+
+    def pushEight(self):
+        self.entryinput.insert("8")
+
+    def pushNine(self):
+        self.entryinput.insert("9")
+
+    def pushAlfa(self):
+        self.entryinput.insert("@")
+
+    def pushDot(self):
+        self.entryinput.insert(".")
+
+    def pushDash(self):
+        self.entryinput.insert("-")
+
+    def pushZ(self):
+        self.entryinput.insert("z")
 
 
 class InitDB():
