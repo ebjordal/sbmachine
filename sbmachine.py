@@ -473,6 +473,8 @@ class RegisterUser(QDialog, Ui_RegisterUser):
                 self.entryinput.setEchoMode(QLineEdit.Normal)
                 self.entryinput.clear()
                 print("Pin match, hash pin and add to database")
+                db.cursor.execute("Insert into User (Email,FirstName,Surname,Phone,Passwordhash) VALUES (%s,%s,%s,%s,%s)",(self.email, self.fname, self.sname, self.phone, self.pin))
+                #db.cursor.commit()
                 return
 
             if self.pin != self.entryinput.text():
@@ -616,7 +618,7 @@ class RegisterUser(QDialog, Ui_RegisterUser):
 
 class InitDB():
     # Evaluate whether this should be a continous database connection and not just init and also contain user.?
-    def __init__(self, parent=None):
+    def __init__(self, parent: object = None) -> object:
         #self.HostID = socket.gethostname()
         self.HostID = 'kopi'
         self.dbuser = mariadb.connect(user='sbm', password='987',
@@ -667,11 +669,11 @@ class InitDB():
 if __name__ == "__main__":
     app = QApplication(sys.argv)  # create the GUI application
     dmw = MainWindow()  # instantiate the main window
-    dmf = UserLoginM()
-    dmp = PinCode()
-    dmr = RegisterUser()
-    user = User()
-    db = InitDB()
+    dmf = UserLoginM()  # Window for typing in email.
+    dmp = PinCode()     # Window for typing in pincode
+    dmr = RegisterUser()# Register user and pincode
+    user = User()       # Class for keeping user information during login session.
+    db = InitDB()       # Class for database interaction.
 
-    dmw.show()  # show it
+    dmw.show()          # show main window.
     sys.exit(app.exec_())
