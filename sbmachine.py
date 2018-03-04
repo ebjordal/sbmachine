@@ -55,6 +55,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if user.email == "NULL":
             print("good")
             dmw.hide()
+            dmr.fname=""
+            dmr.sname=""
+            dmr.email=""
+            dmr.phone=""
+            dmr.pin=""
+            dmr.state="1"
             dmr.show()
 
         if user.email != "NULL":
@@ -411,22 +417,26 @@ class RegisterUser(QDialog, Ui_RegisterUser):
             self.entrylabel.setText("First name:")
             self.entryinput.clear()
             self.entryinput.insert(self.fname)
+            self.Infolabel.setText("<html><b> Is your First name correct? </b></html>")
 
         if self.state=='3':
             self.state='2'
             self.entrylabel.setText("Surname:")
             self.entryinput.clear()
             self.entryinput.insert(self.sname)
+            self.Infolabel.setText("<html><b> Your surname please "+ self.fname + "</b></html>")
 
         if self.state=='4':
             self.state='3'
-            self.entrylabel.setText("Electronic mail:")
+            self.entrylabel.setText("Email:")
             self.entryinput.clear()
             self.entryinput.insert(self.email)
+            self.Infolabel.setText("<html><b> Is your email correct?</b></hml>")
 
         if self.state > '4':
             self.state ='4'
             self.entrylabel.setText("Phone:")
+            self.Infolabel.setText("<html><b> Is your phone number correct?</b></html>")
             self.entryinput.setEchoMode(QLineEdit.Normal)
 
     def pushoknext(self):
@@ -435,13 +445,15 @@ class RegisterUser(QDialog, Ui_RegisterUser):
             self.entrylabel.setText("Surname:")
             self.entryinput.clear()
             self.state='2'
+            self.Infolabel.setText("<html><b> Hello " + self.fname +".<br> Please fill in your surname. </b></html>")
             print("Clicked ok")
             return
 
         if self.state == '2':
             self.sname = self.entryinput.text()
             self.entryinput.clear()
-            self.entrylabel.setText("Electronic mail:")
+            self.entrylabel.setText("Email:")
+            self.Infolabel.setText("<html><b> Thank you " + self.fname + " " +self.sname + ".<br> I will now need your: <br> Email and phone number.</b></html>")
             self.state = '3'
             return
 
@@ -449,14 +461,25 @@ class RegisterUser(QDialog, Ui_RegisterUser):
             self.email = self.entryinput.text()
             self.entryinput.clear()
             self.entrylabel.setText("Phone:")
-            self.state= '4'
+            self.state= '3.5'
+            return
+
+        if self.state == '3.5':
+            self.phone=self.entryinput.text()
+            self.entryinput.clear()
+            self.Infolabel.setText("<html><b> " + self.fname + " " + self.sname + ", are your details correct?<br>"+
+                                   " Email: "+ self.email +"<br>"+
+                                   " Phone: "+ self.phone + "<br>"+
+                                   " If correct, click OK. <br> Othervise click previous.</b></html>")
+            self.state = '4'
             return
 
         if self.state == '4':
-            self.phone = self.entryinput.text()
+            #self.phone = self.entryinput.text()
             self.entryinput.clear()
             self.entryinput.setEchoMode(QLineEdit.Password)
             self.entrylabel.setText("Pincode:")
+            self.Infolabel.setText("<html><b> Please select you pin code. <br> It is reckommended to use 4 digits.<br> Your pin will be stored in a secure way. ")
             print("Firstname = " + self.fname + " Surname = " + self.sname + " Email = " + self.email + " Phone = " + self.phone + "\n")
             self.state='5'
             return
@@ -465,6 +488,7 @@ class RegisterUser(QDialog, Ui_RegisterUser):
             self.pin = self.entryinput.text()
             self.entryinput.clear()
             self.entrylabel.setText("Repeat Pincode:")
+            #print(crypt.crypt(self.pin,self.email))
             self.state = '6'
             return
 
@@ -472,14 +496,29 @@ class RegisterUser(QDialog, Ui_RegisterUser):
             if self.pin == self.entryinput.text():
                 self.entryinput.setEchoMode(QLineEdit.Normal)
                 self.entryinput.clear()
+                self.pin=crypt.crypt(self.pin,self.email)
+                print(self.pin)
                 print("Pin match, hash pin and add to database")
                 db.cursor.execute("Insert into User (Email,FirstName,Surname,Phone,Passwordhash) VALUES (%s,%s,%s,%s,%s)",(self.email, self.fname, self.sname, self.phone, self.pin))
+                self.state = '1'
+                self.entrylabel.setText("Welcome " +self.fname)
+                self.Infolabel.setText("<html><b>Your account will be activated upon a manual email configuration.<b><html>")
+                self.fname = ''
+                self.sname = ''
+                self.email = ''
+                self.pin = ''
+                time.sleep(4)
+                self.entrylabel.setText("First name:")
+                self.Infolabel.setText("")
+                dmr.hide()
+                dmw.show()
                 #db.cursor.commit()
                 return
 
             if self.pin != self.entryinput.text():
                 print("Pin codes does not match, try again")
-                self.state='5'
+                self.state='4'
+                self.pin = ''
                 self.entrylabel.setText("Pin codes did not match, Try again:")
                 self.entryinput.clear()
                 return
@@ -489,6 +528,12 @@ class RegisterUser(QDialog, Ui_RegisterUser):
         self.sname = ''
         self.email = ''
         self.phone = ''
+        self.pin=''
+        self.state='1'
+        self.entryinput.clear()
+        self.entryinput.setEchoMode(QLineEdit.Normal)
+        self.Infolabel.setText("")
+        self.entrylabel.setText("Firstname")
         dmr.hide()
         dmw.show()
 
