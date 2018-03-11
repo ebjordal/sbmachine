@@ -101,6 +101,9 @@ class UserLoginM(QDialog, Ui_userlogin_manual):
         self.pushButton_x.clicked.connect(self.LoginPushX)
         self.pushButton_y.clicked.connect(self.LoginPushY)
         self.pushButton_z.clicked.connect(self.LoginPushZ)
+        self.pushButton_ae.clicked.connect(self.LoginPushAE)
+        self.pushButton_oe.clicked.connect(self.LoginPushOE)
+        self.pushButton_aa.clicked.connect(self.LoginPushAA)
         self.pushButton_dot.clicked.connect(self.LoginPushDot)
         self.pushButton_dash.clicked.connect(self.LoginPushDash)
         self.pushButton_alfa.clicked.connect(self.LoginPushAlpha)
@@ -114,6 +117,7 @@ class UserLoginM(QDialog, Ui_userlogin_manual):
         self.pushButton_eight.clicked.connect(self.LoginPushEight)
         self.pushButton_nine.clicked.connect(self.LoginPushNine)
         self.pushButton_zero.clicked.connect(self.LoginPushZero)
+        self.emailShorts.activated['QString'].connect(self.user_email.insert)
 
     def submit(self):
         dmp.pincode_entry.clear()
@@ -204,6 +208,15 @@ class UserLoginM(QDialog, Ui_userlogin_manual):
 
     def LoginPushZ(self):
         self.user_email.insert("z")
+
+    def LoginPushAE(self):
+        self.user_email.insert("æ")
+
+    def LoginPushOE(self):
+        self.user_email.insert("ø")
+
+    def LoginPushAA(self):
+        self.user_email.insert("å")
 
     def LoginPushDot(self):
         self.user_email.insert(".")
