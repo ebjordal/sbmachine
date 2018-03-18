@@ -441,7 +441,6 @@ class RegisterUser(QDialog, Ui_RegisterUser):
         self.pushButton_Ok.clicked.connect(self.pushoknext)
         self.pushButton_del.clicked.connect(self.pushDel)
         self.pushButton_cancel.clicked.connect(self.pushCancel)
-
         self.pushButton_a.clicked.connect(self.pushA)
         self.pushButton_b.clicked.connect(self.pushB)
         self.pushButton_c.clicked.connect(self.pushC)
@@ -468,6 +467,9 @@ class RegisterUser(QDialog, Ui_RegisterUser):
         self.pushButton_x.clicked.connect(self.pushX)
         self.pushButton_y.clicked.connect(self.pushY)
         self.pushButton_z.clicked.connect(self.pushZ)
+        self.pushButton_oe.clicked.connect(self.pushOE)
+        self.pushButton_ae.clicked.connect(self.pushAE)
+        self.pushButton_aa.clicked.connect(self.pushAA)
         self.pushButton_zero.clicked.connect(self.pushZero)
         self.pushButton_one.clicked.connect(self.pushOne)
         self.pushButton_two.clicked.connect(self.pushTwo)
@@ -616,6 +618,15 @@ class RegisterUser(QDialog, Ui_RegisterUser):
 
     def pushDel(self):
         self.entryinput.backspace()
+
+    def pushOE(self):
+        self.entryinput.insert("ø")
+
+    def pushAE(self):
+        self.entryinput.insert("æ")
+
+    def pushAA(self):
+        self.entryinput.insert("å")
 
     def pushA(self):
         self.entryinput.insert("a")
