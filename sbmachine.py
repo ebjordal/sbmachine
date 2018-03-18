@@ -70,6 +70,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 class UserLoginM(QDialog, Ui_userlogin_manual):
     def __init__(self, parent=None):
         super(UserLoginM, self).__init__(parent)
+        self.state = '1'
+        self.email = ''
+        self.pin = ''
+        self.tries = 0
         self.setupUi(self)
         self.user_email.clear()
         self.pushButton_Ok.clicked.connect(self.submit)
@@ -117,14 +121,74 @@ class UserLoginM(QDialog, Ui_userlogin_manual):
         self.pushButton_eight.clicked.connect(self.LoginPushEight)
         self.pushButton_nine.clicked.connect(self.LoginPushNine)
         self.pushButton_zero.clicked.connect(self.LoginPushZero)
-        self.emailShorts.activated['QString'].connect(self.user_email.insert)
+        self.emailShorts.activated.connect(self.emailactivated)
+
+    def emailactivated(self):
+        #1 scan text, remove old email if exist, insert new email.
+        text=self.user_email.text()
+        if '@' in text:
+            text=text.split('@')[0]
+            self.user_email.clear()
+            self.user_email.insert(text + self.emailShorts.currentText())
+            return
+        self.user_email.insert(self.emailShorts.currentText())
 
     def submit(self):
-        dmp.pincode_entry.clear()
-        user.email = self.user_email.text()  # Setting user.name to user class. Will be used when checking pin code.
-        print(user.email)
-        dmf.hide()
-        dmp.show()
+        if self.state == '1':
+            print("godag")
+            self.email = self.user_email.text()  # Setting user.name to user class. Will be used when checking pin code.
+            print(self.email)
+            self.label.setText('Enter your pin code:')
+            self.user_email.clear()
+            self.emailShorts.hide()
+            self.state = '2'
+            return
+
+        if self.state == '2':
+            print("Hello")
+            self.pin = self.user_email.text()
+            print(self.pin +"\n")
+            self.pin = crypt.crypt(self.pin, self.email)
+            print("Hashed pin"+ self.pin + "\n")
+            pinquery = "SELECT passwordhash FROM User WHERE Email=%s"
+            try:
+                self.cursor.execute(pinquery, (self.email,)) #fetching the hash from DB
+                self.hash = self.cursor.fetchone()
+                print("hash from db "+ self.hash)
+            except:
+                self.hash='NAN'
+
+            if self.pin == self.hash:
+                #Password is correct, setting email and name and logging in.
+                user.email=self.email
+                userquery = "Select Firstname from User Where Email=%s"
+                self.cursor.execute(userquery, (self.email))
+                user.name = self.cursor.fetchone()
+                self.label.setText('Please enter your email:')
+                self.emailShorts.show()
+                self.state = '1'
+                self.tries = 0
+                self.hash = ''
+                dmw.user_name.setText(user.name)
+                dmf.hide()
+                dmw.show()
+
+            if self.pin != self.hash:
+                self.tries = self.tries +1
+                self.user_email.clear()
+                self.label.setText("Wrong pin, try again.")
+                if self.tries > 2:
+                    self.emailShorts.show()
+                    self.state='1'
+                    self.hash = ''
+                    self.label.setText('Please enter your email:')
+                    self.tries=0
+                    self.email = ''
+                    self.hash = ''
+                    dmf.hide()
+                    dmw.show()
+
+
 
     def cancel(self):
         dmf.user_email.clear()
@@ -728,7 +792,7 @@ if __name__ == "__main__":
     app = QApplication(sys.argv)  # create the GUI application
     dmw = MainWindow()  # instantiate the main window
     dmf = UserLoginM()  # Window for typing in email.
-    dmp = PinCode()     # Window for typing in pincode
+    dmp = PinCode()     # Window for typing in pincode - remove this one
     dmr = RegisterUser()# Register user and pincode
     user = User()       # Class for keeping user information during login session.
     db = InitDB()       # Class for database interaction.
