@@ -803,10 +803,8 @@ if __name__ == "__main__":
     app = QApplication(sys.argv)  # create the GUI application
     dmw = MainWindow()  # instantiate the main window
     dmf = UserLoginM()  # Window for typing in email.
-    dmp = PinCode()     # Window for typing in pincode - remove this one
     dmr = RegisterUser()# Register user and pincode
     user = User()       # Class for keeping user information during login session.
     db = InitDB()       # Class for database interaction.
-
-    dmw.show()          # show main window.
+    dmw.showFullScreen()          # show main window.
     sys.exit(app.exec_())
