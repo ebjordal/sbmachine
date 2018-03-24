@@ -37,7 +37,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         #First check if a user is logged in. Then log out and rename button. If not - Login.
         if user.name == 'NULL':
             dmw.hide()
-            dmf.show()
+            dmf.showFullScreen()
             dmf.user_email.clear()
 
         if user.name != 'NULL':
@@ -61,7 +61,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             dmr.phone=""
             dmr.pin=""
             dmr.state="1"
-            dmr.show()
+            dmr.showFullScreen()
 
         if user.email != "NULL":
             print("Will grep for balance.")
