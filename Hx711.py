@@ -560,6 +560,4 @@ class HX711:
         if result != False:
             return True
         else:
-
-
-return False
+            return False
