@@ -149,27 +149,29 @@ class UserLoginM(QDialog, Ui_userlogin_manual):
             self.pin = self.user_email.text()
             print(self.pin +"\n")
             self.pin = crypt.crypt(self.pin, self.email)
-            print("Hashed pin"+ self.pin + "\n")
+            print("Hashed pin typed "+ self.pin + "\n")
+
             pinquery = "SELECT passwordhash FROM User WHERE Email=%s"
             try:
-                self.cursor.execute(pinquery, (self.email,)) #fetching the hash from DB
-                self.hash = self.cursor.fetchone()
-                print("hash from db "+ self.hash)
+                db.cursor.execute(pinquery, (self.email,)) #fetching the hash from DB
+                self.hash = db.cursor.fetchone()
+                print("hash from db "+ self.hash[0])
             except:
+                print("EXCEPTION\n")
                 self.hash='NAN'
 
-            if self.pin == self.hash:
+            if self.pin == self.hash[0]:
                 #Password is correct, setting email and name and logging in.
                 user.email=self.email
                 userquery = "Select Firstname from User Where Email=%s"
-                self.cursor.execute(userquery, (self.email))
-                user.name = self.cursor.fetchone()
+                db.cursor.execute(userquery, (self.email,))
+                user.name = db.cursor.fetchone()
                 self.label.setText('Please enter your email:')
                 self.emailShorts.show()
                 self.state = '1'
                 self.tries = 0
                 self.hash = ''
-                dmw.user_name.setText(user.name)
+                dmw.user_name.setText(user.name[0])
                 dmf.hide()
                 dmw.show()
 
