@@ -3,6 +3,12 @@ import RPi.GPIO as GPIO
 import time
 import statistics as stat
 
+""""
+dout_pin, gpio data pin, 21?
+pd_sck_pin, serial clock pin for slk communicaiton, pin 20?
+gain_channel: Accuracy, rate?
+
+"""
 
 class HX711:
     def __init__(self, dout_pin, pd_sck_pin, gain_channel_A=128, select_channel='A'):
