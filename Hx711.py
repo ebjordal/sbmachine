@@ -7,7 +7,7 @@ import statistics as stat
 dout_pin, gpio data pin, 21?
 pd_sck_pin, serial clock pin for slk communicaiton, pin 20?
 gain_channel: Accuracy, rate?
-Set input for calibration file
+Set input for calibration file.
 """
 
 class HX711:
