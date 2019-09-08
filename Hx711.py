@@ -7,7 +7,7 @@ import statistics as stat
 dout_pin, gpio data pin, 21?
 pd_sck_pin, serial clock pin for slk communicaiton, pin 20?
 gain_channel: Accuracy, rate?
-Set input for calibration file.
+Set input for calibration file. 
 """
 
 class HX711:
@@ -36,7 +36,7 @@ class HX711:
         self._debug_mode = False  # init debug mode to False
         self._pstdev_filter = True  # pstdev filter is by default ON
 
-        GPIO.setmode(GPIO.BCM)  # set GPIO pin mode to BCM numbering
+        GPIO.setmode(GPIO.BCM)  # set GPIO pin mode to BCM numbering (pin mapping)
         GPIO.setup(self._pd_sck, GPIO.OUT)  # pin _pd_sck is output only
         GPIO.setup(self._dout, GPIO.IN)  # pin _dout is input only
         self.select_channel(select_channel)  # call select channel function
