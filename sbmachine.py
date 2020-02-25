@@ -403,7 +403,7 @@ class PinCode(QDialog, Ui_pincode):
         except:
             #Wrong login will cause a modest delay to avoid code guessing
             time.sleep(1)
-            print("WRONG pin/user, you are reported to the CEO of spinbean.")
+            print("WRONG pin/user, you are reported to the CEO of spinbean!")
 
         dmp.hide()
         dmw.show()
